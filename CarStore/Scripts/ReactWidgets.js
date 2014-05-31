@@ -19,63 +19,192 @@ var ReactSearchForm = React.createClass({
     },
 
     render: function(){
-        return (
-             <div class="container-fluid">
-                <div class="navbar-form navbar-left" role="search">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search" ref="searchText" />
-                    </div>
-                    <a class="btn btn-default act-search" id="btnSearch" onClick={this.searchClickHandler}>Search</a>
+        return (            
+                <div className="input-group">
+                    <input type="text" className="form-control" placeholder="Search" ref="searchText" />
+                    <span className="input-group-btn">
+                        <button className="btn btn-default" type="button" onClick={this.searchClickHandler}>
+                            <span className="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
                 </div>
-            </div>
             );
     }
 });
 
 var ReactCarGrid = React.createClass({
-    //getInitialState: function() {
-    //        return { 
-    //            carList: [] 
-    //        };
-    //    },
     render: function () {
-        console.log("ReactCarGrid render start"); 
-        var rowList = this.props.carList.map(function(entity){
-                return <ReactCarGridRow carEntity={entity} />;
-           });
+        console.log("ReactCarGrid render start. Mode=" + this.props.viewMode); 
+        var rowList = null;
+        switch(this.props.viewMode)
+        {
+            case "brief":
+                rowList = this.props.carList.map(function(entity){
+                    return <ReactCarBriefGridRow carEntity={entity.attributes} />;
+                });
+                break;
+            case "detail":
+                rowList = this.props.carList.map(function(entity){
+                    return <ReactCarDetailGridRow carEntity={entity.attributes} />;
+                });
+                break;
+        }   
         return (
           <div>{rowList}</div>
         );
     }
 });
 
-var ReactCarGridRow = React.createClass({
+var ReactCarDetailGridRow = React.createClass({
+    
     render: function(){
         return (
-            <div>
-        <a class="pull-left" href="#">
-           <img class="media-object" src="../Images/1401031633_camaro_256.png" alt="..." />
-       </a>
-       <div class="media-body">
-           <h4 class="media-heading">{this.props.carEntity.Title}</h4>
-           <div>Id: {this.props.carEntity.Id}</div>
-           <div>Rank: {this.props.carEntity.Rank}</div>
-           <div>Speed: {this.props.carEntity.Speed}</div>
-           <div>
-               <div class="btn-group btn-group-justified">
-                   <div class="btn-group">
-                       <button type="button" class="btn btn-default act-up">UP</button>
-                   </div>
-                   <div class="btn-group">
-                       <button type="button" class="btn btn-default act-destroy">Destroy</button>
-                   </div>
-                   <div class="btn-group">
-                       <button type="button" class="btn btn-default act-down">DOWN</button>
-                   </div>
-               </div>
-           </div>
-       </div>
-        </div>
-        );
+            <div className="panel panel-default">
+                <div className="panel-body car-entity-detail">
+                    <div className="block car-data">
+                        <div className="block image-block">
+                            <img src={this.props.carEntity.ImageUrl} />
+                        </div>
+                        <div className="block description-block">
+                            <h2>{this.props.carEntity.Title}</h2>
+                            <div>{this.props.carEntity.Description}</div>
+                        </div>
+                        <div className="block details-block">
+                            <div className="block publish-time text-right text-muted">Published: {this.props.carEntity.PublishDate}</div>
+                            <div className="block details-container">
+                                <div className="block details-left text-info">
+                                    <ul>
+                                        <li>Make: {this.props.carEntity.Make}</li>
+                                        <li>Model: {this.props.carEntity.Model}</li>
+                                        <li>Fuel: {this.props.carEntity.Fuel}</li>
+                                        <li>Engine: {this.props.carEntity.Engine}</li>
+                                    </ul>
+                                </div>
+                                <div className="block details-right text-info">
+                                    <ul>
+                                        <li>Cylinders: {this.props.carEntity.Cylinders}</li>
+                                        <li>Odometer: {this.props.carEntity.Odometer}</li>
+                                        <li>VIN: {this.props.carEntity.VIN}</li>
+                                        <li>Repair Cost: {this.props.carEntity.RepairCost}</li>
+                                    </ul>
+                                </div>
+                                <div className="block price text-right">
+                                    {this.props.carEntity.Price}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="block car-bottom-details">
+                        <div className="block listed-by text-muted">Listed by: {this.props.carEntity.AuthorName}</div>
+                        <div className="block location text-muted">Location: {this.props.carEntity.Location}</div>
+                        <div className="block other-from-user text-right">
+                            <a href="#">Other user listings ({this.props.carEntity.AuthorAdvertCount})</a>
+                        </div>
+                    </div>
+                   
+
+                </div>
+            </div>
+            );
+    }
+});
+
+var ReactCarBriefGridRow = React.createClass({
+
+    render: function() {
+        return (
+            <div className="panel panel-default">
+                <div className="panel-body car-entity-brief">
+                    <div className="block image-block">
+                        <img src={this.props.carEntity.SmallImageUrl} />
+                    </div>
+                    <div className="block description-block">
+                        <h2>{this.props.carEntity.Title}</h2>
+                        <div className="block location text-muted">{this.props.carEntity.Location}</div>
+                    </div>
+                    <div className="block details-container">
+                        <div className="block details-left text-info">
+                            <ul>
+                                <li>Make: {this.props.carEntity.Make}</li>
+                                <li>Model: {this.props.carEntity.Model}</li>
+                            </ul>
+                        </div>
+                        <div className="block details-right text-info">
+                            <ul>
+                                <li>Fuel: {this.props.carEntity.Fuel}</li>
+                                <li>Engine: {this.props.carEntity.Engine}</li>                                
+                            </ul>
+                        </div>                        
+                    </div>
+                    <div className="price-container text-right">
+                        <div className="block price">{this.props.carEntity.Price}</div>
+                        <div className="block publish-time text-muted">Published: {this.props.carEntity.PublishDate}</div>
+                    </div>
+                </div>
+            </div>
+            );
+    }
+});
+
+var ReactChangeGridView = React.createClass({
+    briefViewClickHandler : function () {
+        console.log("briefViewClickHandler start");
+        if (this.props.onChangeViewClick) {
+            this.props.onChangeViewClick("brief");
+        }        
+    },
+
+    detailViewClickHandler : function () {
+        console.log("detailViewClickHandler start");
+        if (this.props.onChangeViewClick) {
+            this.props.onChangeViewClick("detail");
+        }       
+    },
+
+    render : function (){
+        return(
+                <div class="btn-group">
+                    <button type="button" className="btn btn-default" onClick={this.detailViewClickHandler}>
+                        <span className="glyphicon glyphicon-th-large"></span>
+                    </button>
+                    <button type="button" className="btn btn-default" onClick={this.briefViewClickHandler} >
+                        <span className="glyphicon glyphicon-list"></span>
+                    </button>
+                </div>
+            );
+    }
+});
+
+var ReactLoader = React.createClass({
+    getInitialState: function() {
+        return {progressValue: 1};
+    },
+    tick: function() {
+        //debugger;
+        //var maxValue = 100;
+        //var newValue = (this.state.progressValue > maxValue) ? 0 : this.state.progressValue + 1;        
+        //this.setState({progressValue: newValue});
+        this.setState({progressValue: this.state.progressValue + 1});
+    },
+    componentDidMount: function() {
+        this.interval = setInterval(this.tick, 1000);
+    },
+    componentWillUnmount: function() {
+        clearInterval(this.interval);
+    },
+
+    render : function() {
+        //var divStyle = {
+        //    style: "width: " + this.state.progressValue + "%;"
+        //};
+
+        return (
+            <div className="overlay">
+                <div className="progress-container">
+                    Loading... {this.state.progressValue}
+                </div>  
+            </div>  
+
+            );
     }
 });

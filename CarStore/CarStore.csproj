@@ -91,13 +91,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Images\1401031633_camaro_256.png" />
-    <Content Include="Index.html" />
-    <Content Include="Scripts\CarStoreApp2.js" />
-    <Content Include="Scripts\CarStoreApp1.js" />
+    <Content Include="Images\car-icon-large.png" />
+    <Content Include="Images\car-icon-small.png" />
+    <Content Include="Images\car-icon-x-small.png" />
+    <Content Include="mockup-overlay.html" />
+    <Content Include="mockup.html" />
     <Content Include="Scripts\CarStoreApp.js" />
-    <Content Include="Scripts\CarStore.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Helpers.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -106,6 +107,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\ReactWidgets.js" />
+    <Content Include="Styles\CarStore.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -118,13 +120,13 @@
     </Compile>
     <Compile Include="Models\Car.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\CarRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Index - Copy.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
